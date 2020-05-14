@@ -1,6 +1,6 @@
 var $noteTitle = $(".note-title");
 var $noteText = $(".note-textarea");
-var $saveNoteBtn = $(".save-note");
+var $saveNoteBtn = $("#save-note");
 var $newNoteBtn = $(".new-note");
 var $noteList = $(".list-container .list-group");
 
@@ -26,6 +26,7 @@ var saveNote = function(note) {
 
 // A function for deleting a note from the db
 var deleteNote = function(id) {
+  debugger
   return $.ajax({
     url: "api/notes/" + id,
     method: "DELETE"
@@ -51,9 +52,11 @@ var renderActiveNote = function() {
 
 // Get the note data from the inputs, save it to the db and update the view
 var handleNoteSave = function() {
+  var id = $noteList.length;
   var newNote = {
     title: $noteTitle.val(),
-    text: $noteText.val()
+    text: $noteText.val(),
+    id: id
   };
 
   saveNote(newNote).then(function(data) {
@@ -71,6 +74,8 @@ var handleNoteDelete = function(event) {
     .parent(".list-group-item")
     .data();
 
+  console.log(note.id)
+
   if (activeNote.id === note.id) {
     activeNote = {};
   }
@@ -84,6 +89,7 @@ var handleNoteDelete = function(event) {
 // Sets the activeNote and displays it
 var handleNoteView = function() {
   activeNote = $(this).data();
+  
   renderActiveNote();
 };
 
@@ -115,8 +121,10 @@ var renderNoteList = function(notes) {
     var $li = $("<li class='list-group-item'>").data(note);
     var $span = $("<span>").text(note.title);
     var $delBtn = $(
-      "<i class='fas fa-trash-alt float-right text-danger delete-note'>"
+      "<i class='fas fa-trash-alt float-right text-danger' id ='delete-note'>"
     );
+
+    
 
     $li.append($span, $delBtn);
     noteListItems.push($li);
@@ -135,9 +143,10 @@ var getAndRenderNotes = function() {
 $saveNoteBtn.on("click", handleNoteSave);
 $noteList.on("click", ".list-group-item", handleNoteView);
 $newNoteBtn.on("click", handleNewNoteView);
-$noteList.on("click", ".delete-note", handleNoteDelete);
+$noteList.on("click", "#delete-note", handleNoteDelete);
 $noteTitle.on("keyup", handleRenderSaveBtn);
 $noteText.on("keyup", handleRenderSaveBtn);
+
 
 // Gets and renders the initial list of notes
 getAndRenderNotes();
