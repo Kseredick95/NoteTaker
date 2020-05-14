@@ -24,14 +24,23 @@ app.get("/api/notes", function (req, res) {
 });
 
 app.post("/api/notes", function (req, res) {
-    var newNotes = req.body;
+    let newNotes = req.body;
     notesArray.push(newNotes)
 
     res.json(newNotes);
 });
 
 app.delete("/api/notes/:id", function (req, res) {
-
+    // let chosen = req.params.id;
+    
+    // for (var i = 0; i < notesArray.length; i++) {
+    //     if (chosen === notesArray[i].id) {
+    //         notesArray = notesArray.splice(i);
+    //       return notesArray;
+    //     }
+    // }
+    
+    //   return res.json(false);
 })
 
 app.listen(PORT, function () {
