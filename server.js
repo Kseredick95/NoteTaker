@@ -31,16 +31,16 @@ app.post("/api/notes", function (req, res) {
 });
 
 app.delete("/api/notes/:id", function (req, res) {
-    // let chosen = req.params.id;
+    let chosen = req.params.id;
     
-    // for (var i = 0; i < notesArray.length; i++) {
-    //     if (chosen === notesArray[i].id) {
-    //         notesArray = notesArray.splice(i);
-    //       return notesArray;
-    //     }
-    // }
+    for (var i = 0; i < notesArray.length; i++) {
+        if (chosen === notesArray[i].id) {
+            notesArray.splice(i, i);
+          return res.json(notesArray);
+        }
+    }
     
-    //   return res.json(false);
+      return res.json(false);
 })
 
 app.listen(PORT, function () {
